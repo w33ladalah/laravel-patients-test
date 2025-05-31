@@ -7,22 +7,27 @@ use App\Models\Patient;
 
 class PatientController
 {
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'gender' => 'required|in:male,female,other',
-            'birth_date' => 'required|date',
+            'birthdate' => 'required|date',
         ]);
 
         Patient::create([
             'name' => $validated['name'],
             'gender' => $validated['gender'],
-            'birth_date' => $validated['birth_date'],
+            'birthdate' => $validated['birthdate'],
         ]);
 
         return redirect()->route('patients.index')
             ->with('success', 'Patient added successfully');
+    }
+
+    public function create()
+    {
+        return view('patients.create');
     }
 
     public function index()
