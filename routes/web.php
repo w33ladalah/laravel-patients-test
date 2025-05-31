@@ -9,4 +9,4 @@ Route::get('/', function () {
 
 // BUG 1: method create should be GET, store should be POST (swapped)
 Route::post('/patients/create', [PatientController::class, 'create'])->name('patients.create');
-Route::get('/patients', [PatientController::class, 'store'])->name('patients.store');
+Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');

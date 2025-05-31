@@ -9,19 +9,26 @@ class PatientController
 {
     public function create(Request $request)
     {
-        // BUG: missing validation
-        $data = $request->all();
-        // BUG: undefined model reference
-        Patient::create($data);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'gender' => 'required|in:male,female,other',
+            'birth_date' => 'required|date',
+        ]);
 
-        return redirect('/patients')->with('success','Patient added');
+        Patient::create([
+            'name' => $validated['name'],
+            'gender' => $validated['gender'],
+            'birth_date' => $validated['birth_date'],
+        ]);
+
+        return redirect()->route('patients.index')
+            ->with('success', 'Patient added successfully');
     }
 
-    public function store()
+    public function index()
     {
-        // BUG: wrong variable name $patientsx
         $patients = Patient::select('id','name','gender','birthdate')->get();
 
-        return view('patients.index', compact('patientsx'));
+        return view('patients.index', compact('patients'));
     }
 }
