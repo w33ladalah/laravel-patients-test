@@ -15,10 +15,12 @@ class PatientController
             'birthdate' => 'required|date',
         ]);
 
+        $genderToNumber = config('app.gender_to_number');
+
         Patient::create([
             'name' => $validated['name'],
-            'gender' => $validated['gender'],
-            'birthdate' => $validated['birthdate'],
+            'gender' => $genderToNumber[$validated['gender']],
+            'birthdate' => date('Y-m-d', strtotime($validated['birthdate'])),
         ]);
 
         return redirect()->route('patients.index')
@@ -32,8 +34,13 @@ class PatientController
 
     public function index()
     {
-        $patients = Patient::select('id','name','gender','birthdate')->get();
+        $patients = Patient::select('id','name','gender','birthdate')
+            ->orderBy('id', 'asc')  // Sort by ID in ascending order (oldest first)
+            ->paginate(10); // 10 items per page
 
-        return view('patients.index', compact('patients'));
+        $genderToNumber = config('app.gender_to_number');
+        $genderToNumber = array_flip($genderToNumber);
+
+        return view('patients.index', compact('patients','genderToNumber'));
     }
 }

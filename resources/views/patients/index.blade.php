@@ -26,13 +26,19 @@
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $p->id }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $p->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ ucfirst($p->gender) }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $p->birth_date }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ ucfirst($genderToNumber[$p->gender]) }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ date('M d, Y', strtotime($p->birthdate)) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
+                    
+                    <!-- Pagination Links -->
+                    <div class="mt-4">
+                        {{ $patients->links() }}
+                    </div>
+                    
                     <div class="mt-6">
                         <a href="{{ route('patients.create') }}" class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition bg-gray-800 border border-transparent rounded-md hover:bg-gray-700">
                             <svg class="w-4 h-4 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

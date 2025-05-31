@@ -123,4 +123,10 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'gender_to_number'=> [
+        'male' => 1,
+        'female' => 2,
+        'other' => 3,
+    ],
+
 ];

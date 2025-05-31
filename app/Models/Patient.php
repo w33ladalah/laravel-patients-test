@@ -12,7 +12,7 @@ class Patient extends Model
     protected $fillable = [
         'name',
         'gender',
-        'birth_date',
+        'birthdate',
     ];
 
     protected $guarded = [];
